@@ -1,0 +1,28 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "Web Scraper that scrapes data from multiple Nepali job portals",
+  "main": "scraper.js",
+  "scripts": {
+    "start": "node scheduler.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sodip101/jobSearch-Scraper.git"
+  },
+  "author": "Sodip Bikram Thapa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sodip101/jobSearch-Scraper/issues"
+  },
+  "homepage": "https://github.com/sodip101/jobSearch-Scraper#readme",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "cheerio": "^1.0.0-rc.3",
+    "dotenv": "^9.0.0",
+    "node-cron": "^3.0.0",
+    "node-fetch": "^2.6.1",
+    "nodemailer": "^6.5.0",
+    "puppeteer": "^5.5.0"
+  }
+}

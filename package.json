@@ -1,0 +1,16 @@
+{
+    "name": "job-search",
+    "version": "1.0.0",
+    "description": "Multi portal job search",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "cd API && pm2 start app.js --name api && cd .. && cd Auth && pm2 start index.js --name auth && cd .. && cd Frontend && npm start && cd ..",
+        "start-all": "cd API && pm2 start app.js --name api && cd .. && cd Auth && pm2 start index.js --name auth && cd .. && cd Scraper && pm2 start scheduler.js --name scraper && cd .. && cd Frontend && npm start && cd ..",
+        "all-install": "npm i pm2@latest -g && cd API && npm i && cd .. && cd Auth && npm i && cd .. && cd Frontend && npm i && cd .. && cd Scraper && npm i && npm i puppeteer && cd ..",
+        "end-2": "pm2 delete api && pm2 delete auth",
+        "end-all": "pm2 delete scraper && pm2 delete api && pm2 delete auth"
+    },
+    "author": "Sodip Bikram Thapa",
+    "license": "ISC"
+}
