@@ -1,5 +1,5 @@
 // const puppeteer = require("puppeteer");
-const axios=require('axios');
+const axios = require("axios");
 const cheerio = require("cheerio");
 
 //scrape links for all the categories
@@ -7,7 +7,7 @@ const getCategories = async function (baseURL) {
     try {
         let categories = [];
 
-        const response=await axios.get(baseURL);
+        const response = await axios.get(baseURL);
         let page = await response.data;
         let $ = cheerio.load(page);
 
@@ -19,9 +19,21 @@ const getCategories = async function (baseURL) {
             };
             categories.push(category);
         });
+
+        if (categories.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping categories from Mero Job: unable to scrape categories"
+            );
+        }
+
         return categories;
     } catch (error) {
-        throw Error ("\n"+"An error occurred while getting categories for Merojob: " + error.message);
+        return Error(
+            "\n" +
+                "An error occurred while getting categories for Merojob: " +
+                error.message
+        );
     }
 };
 
@@ -32,12 +44,12 @@ const getJobs = async function (category, URL) {
     // page.setDefaultNavigationTimeout(0);
     try {
         let allJobs = [];
-        
+
         let baseURL = URL;
-        let request=await axios.get(category['categoryLink']);
+        let request = await axios.get(category["categoryLink"]);
         // await page.goto(category["categoryLink"]);
         while (true) {
-            const page=await request.data;
+            const page = await request.data;
             // const pageContent = await page.content();
             const $ = cheerio.load(page);
             const data = $("#search_job").children();
@@ -71,17 +83,29 @@ const getJobs = async function (category, URL) {
             next = $("a.pagination-next.page-link").attr("href");
             if (next) {
                 // await page.goto(baseURL + next);
-                request=await axios.get(baseURL+next);
+                request = await axios.get(baseURL + next);
             } else {
                 break;
             }
         }
 
         // await browser.close();
+
+        if (allJobs.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping jobs from Mero Job: unable to scrape jobs"
+            );
+        }
+
         return allJobs;
     } catch (error) {
         // await browser.close();
-        throw Error ("\n"+"An error occurred while scraping jobs from Merojob: " + error.message);
+        return Error(
+            "\n" +
+                "An error occurred while scraping jobs from Merojob: " +
+                error.message
+        );
     }
 };
 
@@ -90,7 +114,7 @@ const main = async function (baseURL) {
     try {
         const allJobs = [];
         const allLinks = new Set();
-        
+
         const categories = await getCategories(baseURL);
         for (category of categories) {
             let jobs = await getJobs(category, baseURL);
@@ -105,7 +129,7 @@ const main = async function (baseURL) {
         console.log("Finished scraping Merojob");
         return allJobs;
     } catch (error) {
-        throw Error("\n" + error.message);
+        return error;
     }
 };
 

@@ -19,6 +19,14 @@ const getCategories = async function (baseURL) {
             };
             categories.push(category);
         });
+
+        if (categories.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping categories from Kumarijob: unable to scrape categories"
+            );
+        }
+
         return categories;
     } catch (error) {
         return Error(
@@ -60,9 +68,16 @@ const getJobs = async function (category) {
             allJobs.push(job);
         });
 
+        if (allJobs.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping jobs from Kumarijob: unable to scrape jobs"
+            );
+        }
+
         return allJobs;
     } catch (error) {
-        throw Error(
+        return Error(
             "\r\n" +
                 "An error occurred while scraping jobs from Kumarijob: " +
                 error.message
@@ -90,7 +105,7 @@ const main = async function (baseURL) {
         console.log("Finished scraping Kumarijob");
         return allJobs;
     } catch (error) {
-        throw Error("\r\n" + error.message);
+        return error;
     }
 };
 

@@ -10,8 +10,8 @@ const getCategories = async function (baseURL) {
     try {
         let categories = [];
 
-        await page.goto(baseURL + "category",{waitUntil:"networkidle0"});
-        const pageContent=await page.content();
+        await page.goto(baseURL + "category", { waitUntil: "networkidle0" });
+        const pageContent = await page.content();
 
         let $ = cheerio.load(pageContent);
 
@@ -25,10 +25,21 @@ const getCategories = async function (baseURL) {
         });
 
         await browser.close();
-        // console.log(categories);
+
+        if (categories.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping categories from Jobs Nepal: unable to scrape categories"
+            );
+        }
+
         return categories;
     } catch (error) {
-        throw Error ("\n"+"An error occurred while scraping categories from Jobs Nepal: " + error.message);
+        return Error(
+            "\n" +
+                "An error occurred while scraping categories from Jobs Nepal: " +
+                error.message
+        );
     }
 };
 
@@ -41,16 +52,16 @@ const getJobs = async function (category) {
         let allJobs = [];
 
         // await page.goto(category["categoryLink"]);
-        let request=await axios.get(category['categoryLink']);
+        let request = await axios.get(category["categoryLink"]);
         while (true) {
             // const pageContent = await page.content();
-            const page=request.data;
+            const page = request.data;
             const $ = cheerio.load(page);
-            const data = $("#app > div > div > div:nth-child(1) > div.col-md-8.top-content.px-0").children();
+            const data = $(
+                "#app > div > div > div:nth-child(1) > div.col-md-8.top-content.px-0"
+            ).children();
             data.each((i, item) => {
-                const data = $(item)
-                    .find("h2.job-title")
-                    .attr("title");
+                const data = $(item).find("h2.job-title").attr("title");
                 const jobLink = $(item)
                     .find("h2.job-title")
                     .find("a")
@@ -65,7 +76,8 @@ const getJobs = async function (category) {
                         location: $(item)
                             .find("i.icon-location4")
                             .next()
-                            .text().trim(),
+                            .text()
+                            .trim(),
                         deadline: "",
                     };
                     allJobs.push(job);
@@ -79,18 +91,29 @@ const getJobs = async function (category) {
                 .attr("href");
             if (nextPage) {
                 // await page.goto(nextPage);
-                request=await axios.get(nextPage);
+                request = await axios.get(nextPage);
             } else {
                 break;
             }
         }
 
         // await browser.close();
-        // console.log(allJobs);
+
+        if (categories.length < 1) {
+            return Error(
+                "\r\n" +
+                    "An error occurred while scraping jobs from Jobs Nepal: unable to scrape jobs"
+            );
+        }
+
         return allJobs;
     } catch (error) {
         // await browser.close();
-        throw Error ("\n"+"An error occurred while scraping jobs from Jobs Nepal: " + error.message);
+        return Error(
+            "\n" +
+                "An error occurred while scraping jobs from Jobs Nepal: " +
+                error.message
+        );
     }
 };
 
@@ -114,7 +137,7 @@ const main = async function (baseURL) {
         console.log("Finished scraping Jobs Nepal");
         return allJobs;
     } catch (error) {
-        throw Error("\n" + error.message);
+        return error;
     }
 };
 
