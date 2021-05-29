@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-export default function SavedJobs({loading,user,setJobs,jobs}){
+export default function SavedJobs({ loading, user, setJobs, jobs }) {
     console.log(user.id);
 
     function deleteJob(job) {
@@ -16,14 +16,15 @@ export default function SavedJobs({loading,user,setJobs,jobs}){
             .then(() => console.log("deleted job"));
     }
 
-    if(loading===true){
+    if (loading === true) {
         return (
             <>
                 <div id="userJobs">
                     <table id="savedJobs">
                         <tr>
                             <th>Job Title</th>
-                            <th>Deadline</th>
+                            <th>Scraped Date</th>
+                            <th>Saved Date</th>
                             <th>Action</th>
                         </tr>
                     </table>
@@ -32,26 +33,44 @@ export default function SavedJobs({loading,user,setJobs,jobs}){
         );
     }
 
-    return <>
-        <div id="userJobs">
-            <table id="savedJobs">
-                <tr>
-                    <th>Job Title</th>
-                    <th>Deadline</th>
-                    <th>Action</th>
-                </tr>
-                {jobs.map((job)=>{
-                    return <tr>
-                        <td>
-                            <a href={job.link} style={{fontWeight:'bold'}} target="_blank" rel="noreferrer">
-                                {job["title"]}
-                            </a>
-                        </td>
-                        <td>{job["deadline"]}</td>
-                        <td><button onClick={()=>deleteJob(job)} className="btnDelete">Delete</button></td>
+    return (
+        <>
+            <div id="userJobs">
+                <table id="savedJobs">
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Scraped Date</th>
+                        <th>Saved Date</th>
+                        <th>Action</th>
                     </tr>
-                })}
-            </table>
-        </div>
-    </>
+                    {jobs.map((job) => {
+                        return (
+                            <tr>
+                                <td>
+                                    <a
+                                        href={job.link}
+                                        style={{ fontWeight: "bold" }}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                    >
+                                        {job["title"]}
+                                    </a>
+                                </td>
+                                <td>{job["scrapedOn"]}</td>
+                                <td>{job["savedDate"]}</td>
+                                <td>
+                                    <button
+                                        onClick={() => deleteJob(job)}
+                                        className="btnDelete"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </table>
+            </div>
+        </>
+    );
 }

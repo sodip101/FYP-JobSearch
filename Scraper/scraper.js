@@ -10,7 +10,7 @@ const Scraper = async function () {
     try {
         //Scraping data from all the portals
         console.log("\nScraping started at: " + new Date());
-        
+
         let allJobs = [];
         let scrapeResults = await Promise.all([
             kumarijob("https://www.kumarijob.com/"),
@@ -33,7 +33,7 @@ const Scraper = async function () {
             .then(() => console.log("Scraping finished at: " + new Date()))
             .then(() => console.log("Total Jobs Scraped: " + allJobs.length));
     } catch (error) {
-        console.log("Scraping Unsuccessful: " + error.message);
+        console.log(error);
         mailer(error.message)
             .then(() => {
                 console.log("The admin has been notified about the error.");
@@ -46,6 +46,7 @@ const Scraper = async function () {
             );
     }
 };
+Scraper();
 
 //export to run from scheduler
 module.exports = Scraper;

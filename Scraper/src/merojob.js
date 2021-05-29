@@ -91,13 +91,6 @@ const getJobs = async function (category, URL) {
 
         // await browser.close();
 
-        if (allJobs.length < 1) {
-            return Error(
-                "\r\n" +
-                    "An error occurred while scraping jobs from Mero Job: unable to scrape jobs"
-            );
-        }
-
         return allJobs;
     } catch (error) {
         // await browser.close();

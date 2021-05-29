@@ -128,6 +128,7 @@ exports.saveJob = function (req, res) {
 
             const checkResult=user1.savedJobs.every(checkDuplicate);
             if(checkResult===true){
+                newJob.savedDate=new Date().toLocaleString();
                 user1.savedJobs.push(newJob);
                 user1.save();
                 res.json({
@@ -146,8 +147,7 @@ exports.saveJob = function (req, res) {
 
 exports.markJob = function (req, res) {
     const { newJob, user } = req.body;
-    newJob["appliedDate"] = new Date().toDateString();
-
+    
     User.findOne({ email: user.email }).exec((err, user1) => {
         if (err) {
             return res.status(500).json({
@@ -157,9 +157,10 @@ exports.markJob = function (req, res) {
             function checkDuplicate(job) {
                 return job.link !== newJob.link;
             }
-
+            
             const checkResult = user1.appliedJobs.every(checkDuplicate);
             if (checkResult === true) {
+                newJob["appliedDate"] = new Date().toLocaleString();
                 user1.appliedJobs.push(newJob);
                 user1.save();
                 res.json({

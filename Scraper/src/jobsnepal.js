@@ -99,13 +99,6 @@ const getJobs = async function (category) {
 
         // await browser.close();
 
-        if (categories.length < 1) {
-            return Error(
-                "\r\n" +
-                    "An error occurred while scraping jobs from Jobs Nepal: unable to scrape jobs"
-            );
-        }
-
         return allJobs;
     } catch (error) {
         // await browser.close();
