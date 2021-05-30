@@ -23,17 +23,22 @@ const Scraper = async function () {
         });
 
         //Updating database with the scraped data
-        fetch("http://localhost:5000/fyp/api/database", {
+        const response = await fetch("http://localhost:5000/fyp/api/database", {
             method: "post",
             body: JSON.stringify({ allJobs }),
             headers: { "Content-Type": "application/json" },
-        })
-            .then((res) => res.json())
-            .then((result) => console.log(result.message))
-            .then(() => console.log("Scraping finished at: " + new Date()))
-            .then(() => console.log("Total Jobs Scraped: " + allJobs.length));
+        });
+        const data = await response.json();
+        
+        console.log(data.message);
+        console.log("Scraping finished at: " + new Date());
+        console.log("Total Jobs Scraped: " + allJobs.length);
+        // .then((res) => res.json())
+        // .then((result) => console.log(result.message))
+        // .then(() => console.log("Scraping finished at: " + new Date()))
+        // .then(() => console.log("Total Jobs Scraped: " + allJobs.length));
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
         mailer(error.message)
             .then(() => {
                 console.log("The admin has been notified about the error.");

@@ -22,6 +22,7 @@ export default function AppliedJobs({loading,setJobs,user,jobs}){
                     <table id="savedJobs">
                         <tr>
                             <th>Applied Job</th>
+                            <th>Company</th>
                             <th>Applied Date</th>
                             <th>Action</th>
                         </tr>
@@ -36,6 +37,7 @@ export default function AppliedJobs({loading,setJobs,user,jobs}){
             <table id="savedJobs">
                 <tr>
                     <th>Applied Job</th>
+                    <th>Company</th>
                     <th>Applied Date</th>
                     <th>Action</th>
                 </tr>
@@ -46,6 +48,7 @@ export default function AppliedJobs({loading,setJobs,user,jobs}){
                                 {job["title"]}
                             </a>
                         </td>
+                        <td>{job["company"]}</td>
                         <td>{job["appliedDate"]}</td>
                         <td><button onClick={()=>deleteJob(job)} className="btnDelete">Delete</button></td>
                     </tr>

@@ -23,6 +23,7 @@ export default function SavedJobs({ loading, user, setJobs, jobs }) {
                     <table id="savedJobs">
                         <tr>
                             <th>Job Title</th>
+                            <th>Company</th>
                             <th>Scraped Date</th>
                             <th>Saved Date</th>
                             <th>Action</th>
@@ -39,6 +40,7 @@ export default function SavedJobs({ loading, user, setJobs, jobs }) {
                 <table id="savedJobs">
                     <tr>
                         <th>Job Title</th>
+                        <th>Company</th>
                         <th>Scraped Date</th>
                         <th>Saved Date</th>
                         <th>Action</th>
@@ -56,6 +58,7 @@ export default function SavedJobs({ loading, user, setJobs, jobs }) {
                                         {job["title"]}
                                     </a>
                                 </td>
+                                <td>{job["company"]}</td>
                                 <td>{job["scrapedOn"]}</td>
                                 <td>{job["savedDate"]}</td>
                                 <td>
